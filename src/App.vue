@@ -16,7 +16,7 @@
         <span v-else> {{ hiddenWord }}</span>
       </div>
       <div>
-        <!-- Add Image -->
+        <img :src="hangman" />
       </div>
     </div>
 
@@ -29,8 +29,8 @@
 </template>
 
 <script>
-const MAX_TURNS = 10;
-const wordList = ["grit", "creativity", "impact", "diversity", "trust"];
+// const MAX_TURNS = 10;
+// const wordList = ["grit", "creativity", "impact", "diversity", "trust"];
 
 export default {
   name: "app",
@@ -59,6 +59,20 @@ export default {
     },
     setWords(state, words) {
       state.words = words;
+    },
+
+    hangman(state) {
+      let image = "images/t" + state.misses + ".jpg";
+      return image;
+    },
+    hiddenWord(state) {
+      let hiddenWord = "";
+      for (let i = 0; i < state.word.length; i++) {
+        let char = state.word.charAt(i);
+        if (state.pickedLetters.indexOf(char) == -1) hiddenWord += "_";
+        else hiddenWord += char;
+      }
+      return hiddenWord;
     }
   }
 };
