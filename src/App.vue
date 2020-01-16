@@ -29,6 +29,23 @@
 </template>
 
 <script>
+const MAX_TURNS = 10;
+const wordList = ["grit", "creativity", "impact", "diversity", "trust"];
+export default {
+  name: "app",
+
+  methods: {
+    doGuess(e) {
+      let character = String.fromCharCode(e.keyCode).toLowerCase();
+      if(isLetter(character)) return;
+
+    }
+
+    function isLetter(str) {
+      return str.match(/[a-z]/i);
+    }
+  }
+  }
 </script>
 
 <style>
