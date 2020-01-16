@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import func from "../vue-temp/vue-editor-bridge";
+
 window.addEventListener("load", function() {
   new Vue({
     el: "#hangman",
@@ -85,16 +87,23 @@ window.addEventListener("load", function() {
         }
         return hiddenWord;
       },
-      pickWord: function(){
-        if (state.words.length ==0)
-          let word = wordList[Math.floor(Math.random()*wordList.length)];
+      pickWord: function() {
+        if (state.words.length == 0)
+          return wordList[Math.floor(Math.random() * wordList.length)];
       },
-      newGame: function(){
-        console.log('Runs')
+
+      takeGuess: function() {
+        let character = String.fromCharCode(e.keycode).toLowerCase();
+        if (character.toUpperCase == character.toLowerCase) return;
+
+
+      },
+      newGame: function() {
+        window.addEventListener("keypress", takeGuess);
       }
     }, //End of methods
     create() {
-      this.newGame();
+      newGame();
     }
   }); // End of vue
 }); // End of window listener
