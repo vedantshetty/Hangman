@@ -84,13 +84,20 @@ window.addEventListener("load", function() {
           else hiddenWord += char;
         }
         return hiddenWord;
+      },
+      pickWord: function(){
+        if (state.words.length ==0)
+          let word = wordList[Math.floor(Math.random()*wordList.length)];
+      },
+      newGame: function(){
+        console.log('Runs')
       }
-  }
-  //End of
-    });
-    // End of vue
-  });
-  // End of window listener
+    }, //End of methods
+    create() {
+      this.newGame();
+    }
+  }); // End of vue
+}); // End of window listener
 </script>
 
 <style>
