@@ -68,9 +68,6 @@ window.addEventListener("load", function() {
         state.gameOver = true;
         state.won = won;
       },
-      setWords: function(state, words) {
-        state.words = words;
-      },
 
       hangman: function() {
         let image = "images/t" + state.misses + ".jpg";
