@@ -1,36 +1,34 @@
 <template>
   <div id="app">
     <h1>Hangman</h1>
-    <div class ='instructions'>
+    <div class="instructions">
       <h2>How to play?</h2>
-      <p> Type the letters into your keyboard to guess the word. But Remember! 
-      Every incorrect letter brings you closer to losing the game and your head...</p>
+      <p>
+        Type the letters into your keyboard to guess the word. But Remember!
+        Every incorrect letter brings you closer to losing the game and your
+        head...
+      </p>
     </div>
 
-    <div class = "columns">
-      <div class = "hiddenWord">
-        <span v-if="isGameOver"> {{word}}</span>
-        <span v-else> {{hiddenWord}}</span>
+    <div class="columns">
+      <div class="hiddenWord">
+        <span v-if="isGameOver"> {{ word }}</span>
+        <span v-else> {{ hiddenWord }}</span>
       </div>
-    
-    <!-- Add Image -->
+      <div>
+        <!-- Add Image -->
+      </div>
     </div>
 
-
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <div v-if="isGameOver" class="gameOver">
+      <span v-if="won">WooHoo!! You won!</span>
+      <span v-else>Sorry, try again next time.</span>
+      <button @click="newGame">Play Again</button>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-
-export default {
-  name: "app",
-  components: {
-    HelloWorld
-  }
-};
 </script>
 
 <style>
