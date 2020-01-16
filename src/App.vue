@@ -1,3 +1,5 @@
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
 <template>
   <div id="app">
     <h1>Hangman</h1>
@@ -29,21 +31,23 @@
 </template>
 
 <script>
-// const MAX_TURNS = 10;
-// const wordList = ["grit", "creativity", "impact", "diversity", "trust"];
+window.addEventListener("load", function() {
+  new Vue({
+    el: "#hangman",
+    data: {
+        state: {
+        word: "",
+        pickedLetters: [],
+        words: [],
+        misses: 0,
+        gameOver: false,
+        won: false
+       },
+       wordList: ["grit", "creativity", "impact", "diversity", "trust"]
+    },
+    methods: {
 
-export default {
-  name: "app",
-  state: {
-    word: "",
-    pickedLetters: [],
-    words: [],
-    misses: 0,
-    gameOver: false,
-    won: false
-  },
-  methods: {
-    addLetter(state, letter) {
+    addLetter: function(state, letter) {
       // Letter already added
       if (state.pickedLetters.indexOf(letter) >= 0) return;
 
@@ -53,19 +57,19 @@ export default {
       if (state.word.indexOf(letter) == -1) state.misses++;
     },
 
-    isGameOver(state, won) {
+    isGameOver: function(state, won) {
       state.gameOver = true;
-      state.won = won;
+        state.won = won;
     },
-    setWords(state, words) {
-      state.words = words;
+      setWords(state, words) {
+        state.words = words;
     },
 
-    hangman(state) {
+    hangman: function(state) {
       let image = "images/t" + state.misses + ".jpg";
       return image;
     },
-    hiddenWord(state) {
+    hiddenWord: function(state) {
       let hiddenWord = "";
       for (let i = 0; i < state.word.length; i++) {
         let char = state.word.charAt(i);
@@ -75,7 +79,11 @@ export default {
       return hiddenWord;
     }
   }
-};
+  //End of
+    });
+    // End of vue
+  });
+  // End of window listener
 </script>
 
 <style>
