@@ -40,7 +40,6 @@ window.addEventListener("load", function() {
       state: {
         word: "",
         pickedLetters: [],
-        words: [],
         misses: 0,
         gameOver: false,
         won: false
@@ -48,7 +47,7 @@ window.addEventListener("load", function() {
       wordList: ["grit", "creativity", "impact", "diversity", "trust"]
     },
     methods: {
-      initialize: function(state, word) {
+      initialize: function(word) {
         state.word = word;
         state.misses = 0;
         state.gameOver = false;
@@ -56,7 +55,7 @@ window.addEventListener("load", function() {
         state.pickedLetters = [];
       },
 
-      addLetter: function(state, letter) {
+      addLetter: function(letter) {
         // Letter already added
         if (state.pickedLetters.indexOf(letter) >= 0) return;
 
@@ -66,7 +65,7 @@ window.addEventListener("load", function() {
         if (state.word.indexOf(letter) == -1) state.misses++;
       },
 
-      isGameOver: function(state, won) {
+      isGameOver: function(won) {
         state.gameOver = true;
         state.won = won;
       },
@@ -74,31 +73,37 @@ window.addEventListener("load", function() {
         state.words = words;
       },
 
-      hangman: function(state) {
+      hangman: function() {
         let image = "images/t" + state.misses + ".jpg";
         return image;
       },
-      hiddenWord: function(state) {
-        let hiddenWord = "";
+      hiddenWord: function() {
+        let secretWord = "";
         for (let i = 0; i < state.word.length; i++) {
           let char = state.word.charAt(i);
-          if (state.pickedLetters.indexOf(char) == -1) hiddenWord += "_";
-          else hiddenWord += char;
+          if (state.pickedLetters.indexOf(char) == -1) secretWord += "_";
+          else secretWord += char;
         }
-        return hiddenWord;
+        return secretWord;
       },
       pickWord: function() {
         if (state.words.length == 0)
-          return wordList[Math.floor(Math.random() * wordList.length)];
+          initialize(wordList[Math.floor(Math.random() * wordList.length)]);
       },
 
+      guess: function(letter) {
+        addLetter(letter);
+        if (hiddenWord() == state.word) isGameOver(true);
+        if (state.misses == MAX_MISSES) isGameOver(false);
+      },
       takeGuess: function() {
         let character = String.fromCharCode(e.keycode).toLowerCase();
         if (character.toUpperCase == character.toLowerCase) return;
-
+        guess(letter);
 
       },
       newGame: function() {
+        pickWord();
         window.addEventListener("keypress", takeGuess);
       }
     }, //End of methods
