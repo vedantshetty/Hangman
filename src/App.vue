@@ -31,21 +31,37 @@
 <script>
 const MAX_TURNS = 10;
 const wordList = ["grit", "creativity", "impact", "diversity", "trust"];
+
 export default {
   name: "app",
-
+  state: {
+    word: "",
+    pickedLetters: [],
+    words: [],
+    misses: 0,
+    gameOver: false,
+    won: false
+  },
   methods: {
-    doGuess(e) {
-      let character = String.fromCharCode(e.keyCode).toLowerCase();
-      if(isLetter(character)) return;
+    addLetter(state, letter) {
+      // Letter already added
+      if (state.pickedLetters.indexOf(letter) >= 0) return;
 
-    }
+      state.pickedLetters.push(letter);
+      state.pickedLetters.sort();
 
-    function isLetter(str) {
-      return str.match(/[a-z]/i);
+      if (state.word.indexOf(letter) == -1) state.misses++;
+    },
+
+    isGameOver(state, won) {
+      state.gameOver = true;
+      state.won = won;
+    },
+    setWords(state, words) {
+      state.words = words;
     }
   }
-  }
+};
 </script>
 
 <style>
