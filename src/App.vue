@@ -35,49 +35,56 @@ window.addEventListener("load", function() {
   new Vue({
     el: "#hangman",
     data: {
-        state: {
+      state: {
         word: "",
         pickedLetters: [],
         words: [],
         misses: 0,
         gameOver: false,
         won: false
-       },
-       wordList: ["grit", "creativity", "impact", "diversity", "trust"]
+      },
+      wordList: ["grit", "creativity", "impact", "diversity", "trust"]
     },
     methods: {
+      initialize: function(state, word) {
+        state.word = word;
+        state.misses = 0;
+        state.gameOver = false;
+        state.won = false;
+        state.pickedLetters = [];
+      },
 
-    addLetter: function(state, letter) {
-      // Letter already added
-      if (state.pickedLetters.indexOf(letter) >= 0) return;
+      addLetter: function(state, letter) {
+        // Letter already added
+        if (state.pickedLetters.indexOf(letter) >= 0) return;
 
-      state.pickedLetters.push(letter);
-      state.pickedLetters.sort();
+        state.pickedLetters.push(letter);
+        state.pickedLetters.sort();
 
-      if (state.word.indexOf(letter) == -1) state.misses++;
-    },
+        if (state.word.indexOf(letter) == -1) state.misses++;
+      },
 
-    isGameOver: function(state, won) {
-      state.gameOver = true;
+      isGameOver: function(state, won) {
+        state.gameOver = true;
         state.won = won;
-    },
-      setWords(state, words) {
+      },
+      setWords: function(state, words) {
         state.words = words;
-    },
+      },
 
-    hangman: function(state) {
-      let image = "images/t" + state.misses + ".jpg";
-      return image;
-    },
-    hiddenWord: function(state) {
-      let hiddenWord = "";
-      for (let i = 0; i < state.word.length; i++) {
-        let char = state.word.charAt(i);
-        if (state.pickedLetters.indexOf(char) == -1) hiddenWord += "_";
-        else hiddenWord += char;
+      hangman: function(state) {
+        let image = "images/t" + state.misses + ".jpg";
+        return image;
+      },
+      hiddenWord: function(state) {
+        let hiddenWord = "";
+        for (let i = 0; i < state.word.length; i++) {
+          let char = state.word.charAt(i);
+          if (state.pickedLetters.indexOf(char) == -1) hiddenWord += "_";
+          else hiddenWord += char;
+        }
+        return hiddenWord;
       }
-      return hiddenWord;
-    }
   }
   //End of
     });
