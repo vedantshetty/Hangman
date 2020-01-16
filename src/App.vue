@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import func from "../vue-temp/vue-editor-bridge";
 
 window.addEventListener("load", function() {
   new Vue({
