@@ -43,12 +43,18 @@ export default {
         won: false
       },
       wordList: ["grit", "creativity", "impact", "diversity", "trust"],
-      hangmanImage: ""
+      hangmanImage: "",
+      MAX_MISSES = 10
     };
   },
   methods: {
     newGame() {
       this.initialize();
+      window.addEventListener("keypress", function(e) {
+        let char = e.key.toLowerCase();
+        if (character.toUpperCase == character.toLowerCase) return;
+      });
+      this.guess(letter);
     },
     initialize() {
       this.state.word = this.pickWord();
