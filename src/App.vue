@@ -63,7 +63,7 @@ export default {
       this.state.isGameOver = false;
       this.state.won = false;
       this.state.pickedLetters = [];
-      this.hangmanImage = this.hangman();
+      this.hangman();
       console.log(this.state.word);
     },
     pickWord() {
@@ -71,12 +71,12 @@ export default {
     },
 
     turnEnd(letter) {
-      if (this.state.word.indexOf(letter) == -1){
+      if (this.state.word.indexOf(letter) == -1) {
         this.state.misses++;
         this.hangman();
       }
-      if (this.hiddenWord() == this.state.word) this.gameOver((won = true));
-      if (this.state.misses == this.MAX_MISSES) this.gameOver((won = false));
+      if (this.hiddenWord() == this.state.word) this.gameOver((true));
+      if (this.state.misses == this.MAX_MISSES) this.gameOver((false));
     },
 
     hiddenWord() {
@@ -101,7 +101,7 @@ export default {
       this.state.won = won;
     },
     hangman() {
-      return "images/t" + this.state.misses + ".jpg";
+      this.hangmanImage =  "images/t" + this.state.misses + ".jpg";
     }
   },
   beforeMount() {
