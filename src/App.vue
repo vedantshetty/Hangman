@@ -10,14 +10,14 @@
       </p>
     </div>
 
-    <template v-if ="initialize()">
+    <template>
       <div class="columns">
         <div class="hiddenWord">
           <span v-if="isGameOver"> {{ word }}</span>
           <span v-else> {{ hiddenWord }}</span>
         </div>
         <div>
-          <img :src="hangman" />
+          <img :src="hangmanImage" />
         </div>
       </div>
     </template>
@@ -42,12 +42,13 @@ export default {
         gameOver: false,
         won: false
       },
-      wordList: ["grit", "creativity", "impact", "diversity", "trust"]
+      wordList: ["grit", "creativity", "impact", "diversity", "trust"],
+      hangmanImage: ""
     };
   },
   methods: {
     newGame() {
-      console.log("New Game Works");
+      this.initialize();
     },
     initialize() {
       this.state.word = this.pickWord();
@@ -55,11 +56,18 @@ export default {
       this.state.gameOver = false;
       this.state.won = false;
       this.state.pickedLetters = [];
+      this.hangmanImage = this.hangman();
       console.log(this.state.word);
     },
     pickWord() {
       return this.wordList[Math.floor(Math.random() * this.wordList.length)];
+    },
+    hangman() {
+      return "images/t" + this.state.misses + ".jpg";
     }
+  },
+  beforeMount() {
+    this.newGame();
   }
 }; // End of vue
 </script>
