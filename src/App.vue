@@ -10,21 +10,23 @@
       </p>
     </div>
 
-    <div class="columns">
-      <div class="hiddenWord">
-        <span v-if="isGameOver"> {{ word }}</span>
-        <span v-else> {{ hiddenWord }}</span>
+    <template v-if ="pickWord()">
+      <div class="columns">
+        <div class="hiddenWord">
+          <span v-if="isGameOver"> {{ word }}</span>
+          <span v-else> {{ hiddenWord }}</span>
+        </div>
+        <div>
+          <img :src="hangman" />
+        </div>
       </div>
-      <div>
-        <img :src="hangman" />
-      </div>
-    </div>
+    </template>
 
     <div v-if="isGameOver" class="gameOver">
       <span v-if="won">WooHoo!! You won!</span>
       <span v-else>Sorry, try again next time.</span>
-      <button @click="newGame">Play Again</button>
     </div>
+    <button @click="newGame">Play Again</button>
   </div>
 </template>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -46,6 +48,19 @@ export default {
   methods: {
     newGame() {
       console.log("New Game Works");
+    },
+    initialize(word) {
+      this.state.word = word;
+      this.state.misses = 0;
+      this.state.gameOver = false;
+      this.state.won = false;
+      this.state.pickedLetters = [];
+    },
+    pickWord() {
+      if (this.state.word.length == 0)
+        this.initialize(
+          this.wordList[Math.floor(Math.random() * this.wordList.length)]
+        );
     }
   }
 }; // End of vue
