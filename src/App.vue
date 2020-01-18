@@ -1,5 +1,3 @@
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
 <template>
   <div id="app">
     <h1>Hangman</h1>
@@ -29,13 +27,12 @@
     </div>
   </div>
 </template>
-
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
-
-window.addEventListener("load", function() {
-  new Vue({
-    el: "#hangman",
-    data: {
+export default {
+  name: "app",
+  data: function() {
+    return {
       state: {
         word: "",
         pickedLetters: [],
@@ -44,70 +41,14 @@ window.addEventListener("load", function() {
         won: false
       },
       wordList: ["grit", "creativity", "impact", "diversity", "trust"]
-    },
-    methods: {
-      initialize: function(word) {
-        state.word = word;
-        state.misses = 0;
-        state.gameOver = false;
-        state.won = false;
-        state.pickedLetters = [];
-      },
-
-      addLetter: function(letter) {
-        // Letter already added
-        if (state.pickedLetters.indexOf(letter) >= 0) return;
-
-        state.pickedLetters.push(letter);
-        state.pickedLetters.sort();
-
-        if (state.word.indexOf(letter) == -1) state.misses++;
-      },
-
-      isGameOver: function(won) {
-        state.gameOver = true;
-        state.won = won;
-      },
-
-      hangman: function() {
-        let image = "images/t" + state.misses + ".jpg";
-        return image;
-      },
-      hiddenWord: function() {
-        let secretWord = "";
-        for (let i = 0; i < state.word.length; i++) {
-          let char = state.word.charAt(i);
-          if (state.pickedLetters.indexOf(char) == -1) secretWord += "_";
-          else secretWord += char;
-        }
-        return secretWord;
-      },
-      pickWord: function() {
-        if (state.words.length == 0)
-          initialize(wordList[Math.floor(Math.random() * wordList.length)]);
-      },
-
-      guess: function(letter) {
-        addLetter(letter);
-        if (hiddenWord() == state.word) isGameOver(true);
-        if (state.misses == MAX_MISSES) isGameOver(false);
-      },
-      takeGuess: function() {
-        let character = String.fromCharCode(e.keycode).toLowerCase();
-        if (character.toUpperCase == character.toLowerCase) return;
-        guess(letter);
-
-      },
-      newGame: function() {
-        pickWord();
-        window.addEventListener("keypress", takeGuess);
-      }
-    }, //End of methods
-    create() {
-      newGame();
+    };
+  },
+  methods: {
+    newGame() {
+      console.log("New Game Works");
     }
-  }); // End of vue
-}); // End of window listener
+  }
+}; // End of vue
 </script>
 
 <style>
