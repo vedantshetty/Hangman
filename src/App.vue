@@ -13,8 +13,8 @@
     <template>
       <div class="columns">
         <div class="hiddenWord">
-          <span v-if="isGameOver"> {{ word }}</span>
-          <span v-else> {{ hiddenWord }}</span>
+          <span v-if="state.isGameOver"> {{ state.word }}</span>
+          <span v-else> {{ hiddenWord() }}</span>
         </div>
         <div>
           <img :src="hangmanImage" />
@@ -22,8 +22,8 @@
       </div>
     </template>
 
-    <div v-if="isGameOver" class="gameOver">
-      <span v-if="won">WooHoo!! You won!</span>
+    <div v-if="state.isGameOver" class="gameOver">
+      <span v-if="state.won">WooHoo!! You won!</span>
       <span v-else>Sorry, try again next time.</span>
     </div>
     <button @click="newGame">Play Again</button>
@@ -39,27 +39,28 @@ export default {
         word: "",
         pickedLetters: [],
         misses: 0,
-        gameOver: false,
+        isGameOver: false,
         won: false
       },
       wordList: ["grit", "creativity", "impact", "diversity", "trust"],
       hangmanImage: "",
-      MAX_MISSES = 10
+      MAX_MISSES: 10
     };
   },
   methods: {
     newGame() {
       this.initialize();
+      let self = this;
       window.addEventListener("keypress", function(e) {
-        let char = e.key.toLowerCase();
-        if (character.toUpperCase == character.toLowerCase) return;
+        let letter = e.key.toLowerCase();
+        if (letter.toUpperCase == letter.toLowerCase) return;
+        self.addLetter(letter);
       });
-      this.guess(letter);
     },
     initialize() {
       this.state.word = this.pickWord();
       this.state.misses = 0;
-      this.state.gameOver = false;
+      this.state.isGameOver = false;
       this.state.won = false;
       this.state.pickedLetters = [];
       this.hangmanImage = this.hangman();
@@ -67,6 +68,37 @@ export default {
     },
     pickWord() {
       return this.wordList[Math.floor(Math.random() * this.wordList.length)];
+    },
+
+    turnEnd(letter) {
+      if (this.state.word.indexOf(letter) == -1){
+        this.state.misses++;
+        this.hangman();
+      }
+      if (this.hiddenWord() == this.state.word) this.gameOver((won = true));
+      if (this.state.misses == this.MAX_MISSES) this.gameOver((won = false));
+    },
+
+    hiddenWord() {
+      let secretWord = "";
+      for (let i = 0; i < this.state.word.length; i++) {
+        let char = this.state.word.charAt(i);
+        if (this.state.pickedLetters.indexOf(char) == -1) secretWord += "_";
+        else secretWord += char;
+      }
+      return secretWord;
+    },
+
+    addLetter(letter) {
+      if (this.state.pickedLetters.indexOf(letter) >= 0) return;
+      this.state.pickedLetters.push(letter);
+      this.state.pickedLetters.sort();
+      this.turnEnd(letter);
+    },
+
+    gameOver(won) {
+      this.state.isGameOver = true;
+      this.state.won = won;
     },
     hangman() {
       return "images/t" + this.state.misses + ".jpg";
