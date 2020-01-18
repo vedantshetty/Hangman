@@ -10,7 +10,7 @@
       </p>
     </div>
 
-    <template v-if ="pickWord()">
+    <template v-if ="initialize()">
       <div class="columns">
         <div class="hiddenWord">
           <span v-if="isGameOver"> {{ word }}</span>
@@ -49,18 +49,16 @@ export default {
     newGame() {
       console.log("New Game Works");
     },
-    initialize(word) {
-      this.state.word = word;
+    initialize() {
+      this.state.word = this.pickWord();
       this.state.misses = 0;
       this.state.gameOver = false;
       this.state.won = false;
       this.state.pickedLetters = [];
+      console.log(this.state.word);
     },
     pickWord() {
-      if (this.state.word.length == 0)
-        this.initialize(
-          this.wordList[Math.floor(Math.random() * this.wordList.length)]
-        );
+      return this.wordList[Math.floor(Math.random() * this.wordList.length)];
     }
   }
 }; // End of vue
